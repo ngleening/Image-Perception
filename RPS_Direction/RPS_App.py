@@ -8,20 +8,23 @@ import time
 model = load_model('RPS.h5')
 
 
-def calcResult(pred_class, cpu):
-    if pred_class == cpu:
-        return 'draw'
-    if pred_class == 1 and (cpu == 3 or cpu == 4):
-        return 'user'
-    if pred_class == 2 and (cpu == 1 or cpu == 5):
-        return 'user'
-    if pred_class == 3 and (cpu == 2 or cpu == 4):
-        return 'user'
-    if pred_class == 4 and (cpu == 2 or cpu == 5):
-        return 'user'
-    if pred_class == 5 and (cpu == 1 or cpu == 3):
-        return 'user'
-    return 'cpu'
+# 1 Rock
+# 2 Paper
+# 3 Scissors
+
+def rps(user_input, computer_input):
+    if user_input == computer_input:
+        return False, 'draw'
+    if (user_input == 1 and computer_input == 3) or \
+            (user_input == 2 and computer_input == 1) or (user_input == 3 and computer_input == 2):
+        return True, 'user'
+    return True, 'cpu'
+
+
+def direction(user_input, computer_input):
+    if user_input == computer_input:
+        return True
+    return False
 
 
 def main():
@@ -30,6 +33,10 @@ def main():
     emojis = get_emojis()
     cap = cv2.VideoCapture(0)
     x, y, w, h = 300, 50, 350, 350
+
+    RPS_draw = False
+    RPS_winner = None
+    direction_winner_found = False
 
     while (cap.isOpened()):
         ret, img = cap.read()
@@ -74,10 +81,10 @@ def main():
         if result == 'user':
             cv2.putText(img, 'USER', (530, 170),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
-        elif result=='cpu':
+        elif result == 'cpu':
             cv2.putText(img, 'CPU', (530, 170),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
-        elif result=='draw':
+        elif result == 'draw':
             cv2.putText(img, 'DRAW', (530, 170),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 0, 0), 2)
         else:
