@@ -16,7 +16,7 @@ def main(g_id):
     cap = cv2.VideoCapture(0)
     x, y, w, h = 300, 50, 350, 350
 
-    create_folder("gestures/" + str(g_id))
+    create_folder("./gestures/" + str(g_id))
     pic_no = 0
     flag_start_capturing = False
     frames = 0
@@ -53,7 +53,7 @@ def main(g_id):
                                                   cv2.BORDER_CONSTANT, (0, 0, 0))
                 save_img = cv2.resize(save_img, (image_x, image_y))
                 cv2.putText(frame, "Capturing...", (30, 60), cv2.FONT_HERSHEY_TRIPLEX, 2, (127, 255, 255))
-                cv2.imwrite("gestures/" + str(g_id) + "/" + str(pic_no) + ".jpg", save_img)
+                cv2.imwrite("./gestures/" + str(g_id) + "/" + str(pic_no) + ".jpg", save_img)
 
         cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
         cv2.putText(frame, str(pic_no), (30, 400), cv2.FONT_HERSHEY_TRIPLEX, 1.5, (127, 127, 255))
