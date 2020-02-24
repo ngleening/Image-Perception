@@ -10,7 +10,7 @@ import pandas as pd
 
 
 def keras_model(image_x, image_y):
-    num_of_classes = 7
+    num_of_classes = 8
     model = Sequential()
     model.add(Conv2D(32, (5, 5), input_shape=(image_x, image_y, 1), activation='relu'))
     model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2), padding='same'))
@@ -31,13 +31,12 @@ def keras_model(image_x, image_y):
 
 
 def loadData():
-    data = pd.read_csv("train_RPS_directions.csv")
+    data = pd.read_csv("train_RPS_directions_num.csv")
     dataset = np.array(data)
     np.random.shuffle(dataset)
     features = dataset[:, 1:2501]
     features = features / 255.
     labels = dataset[:, 0]
-    #label_to_num_dict = {'up': 1, 'down': 2, 'left': 3, 'right': 4, 'rock': 5, 'paper': 6, 'scissors': 7}
     labels = labels.reshape(labels.shape[0], 1)
     train_x, test_x, train_y, test_y = train_test_split(features, labels, random_state=0,
                                                         test_size=0.2)
@@ -45,8 +44,8 @@ def loadData():
 
 
 def reshapeData(train_x, test_x, train_y, test_y):
-    #train_y = np_utils.to_categorical(train_y)
-    #test_y = np_utils.to_categorical(test_y)
+    train_y = np_utils.to_categorical(train_y)
+    test_y = np_utils.to_categorical(test_y)
     train_x = train_x.reshape(train_x.shape[0], 50, 50, 1)
     test_x = test_x.reshape(test_x.shape[0], 50, 50, 1)
     return train_x, test_x, train_y, test_y
