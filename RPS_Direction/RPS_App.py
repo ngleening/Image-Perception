@@ -5,7 +5,7 @@ import os
 from random import randint
 import time
 
-model = load_model('RPS.h5')
+model = load_model('RPS_direction.h5')
 
 
 # 1 Rock
@@ -99,7 +99,7 @@ def main():
                 if k == 27:
                     break
 
-                direction_winner_found = direction(RPS_winner)
+                # direction_winner_found = direction(RPS_winner)
 
 
 def keras_predict(model, image):
