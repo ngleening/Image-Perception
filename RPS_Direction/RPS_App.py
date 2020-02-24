@@ -34,66 +34,72 @@ def main():
     cap = cv2.VideoCapture(0)
     x, y, w, h = 300, 50, 350, 350
 
-    RPS_draw = False
-    RPS_winner = None
-    direction_winner_found = False
-
     while (cap.isOpened()):
-        ret, img = cap.read()
-        img = cv2.flip(img, 1)
-        hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-        mask2 = cv2.inRange(hsv, np.array([2, 50, 60]), np.array([25, 150, 255]))
-        res = cv2.bitwise_and(img, img, mask=mask2)
-        gray = cv2.cvtColor(res, cv2.COLOR_BGR2GRAY)
-        median = cv2.GaussianBlur(gray, (5, 5), 0)
+        RPS_draw = False
+        RPS_winner = None
+        direction_winner_found = False
 
-        kernel_square = np.ones((5, 5), np.uint8)
-        dilation = cv2.dilate(median, kernel_square, iterations=2)
-        opening = cv2.morphologyEx(dilation, cv2.MORPH_CLOSE, kernel_square)
-        ret, thresh = cv2.threshold(opening, 30, 255, cv2.THRESH_BINARY)
+        while not direction_winner_found:
+            while not RPS_draw:
+                ret, img = cap.read()
+                img = cv2.flip(img, 1)
+                hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+                mask2 = cv2.inRange(hsv, np.array([2, 50, 60]), np.array([25, 150, 255]))
+                res = cv2.bitwise_and(img, img, mask=mask2)
+                gray = cv2.cvtColor(res, cv2.COLOR_BGR2GRAY)
+                median = cv2.GaussianBlur(gray, (5, 5), 0)
 
-        thresh = thresh[y:y + h, x:x + w]
-        contours = cv2.findContours(thresh.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)[1]
-        if len(contours) > 0:
-            contour = max(contours, key=cv2.contourArea)
-            if cv2.contourArea(contour) > 2500:
-                if flag == 0:
-                    cpu = (randint(1, 5))
-                    flag = 1
-                x, y, w1, h1 = cv2.boundingRect(contour)
-                newImage = thresh[y:y + h1, x:x + w1]
-                newImage = cv2.resize(newImage, (50, 50))
-                pred_probab, pred_class = keras_predict(model, newImage)
-                print(pred_class, pred_probab)
-                img = overlay(img, emojis[pred_class], 370, 50, 90, 90)
-                img = overlay(img, emojis[cpu], 530, 50, 90, 90)
-                result = calcResult(pred_class, cpu)
+                kernel_square = np.ones((5, 5), np.uint8)
+                dilation = cv2.dilate(median, kernel_square, iterations=2)
+                opening = cv2.morphologyEx(dilation, cv2.MORPH_CLOSE, kernel_square)
+                ret, thresh = cv2.threshold(opening, 30, 255, cv2.THRESH_BINARY)
 
-        elif len(contours) == 0:
-            flag = 0
-        x, y, w, h = 300, 50, 350, 350
-        cv2.putText(img, 'USER', (380, 40),
-                    cv2.FONT_HERSHEY_COMPLEX, 0.7, (0, 0, 255), 2)
-        cv2.putText(img, 'CPU', (550, 40),
-                    cv2.FONT_HERSHEY_COMPLEX, 0.7, (0, 0, 255), 2)
-        cv2.putText(img, 'Result : ', (420, 170),
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
-        if result == 'user':
-            cv2.putText(img, 'USER', (530, 170),
-                        cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
-        elif result == 'cpu':
-            cv2.putText(img, 'CPU', (530, 170),
-                        cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
-        elif result == 'draw':
-            cv2.putText(img, 'DRAW', (530, 170),
-                        cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 0, 0), 2)
-        else:
-            pass
-        cv2.imshow("Frame", img)
-        cv2.imshow("Contours", thresh)
-        k = cv2.waitKey(10)
-        if k == 27:
-            break
+                thresh = thresh[y:y + h, x:x + w]
+                contours = cv2.findContours(thresh.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)[1]
+                if len(contours) > 0:
+                    contour = max(contours, key=cv2.contourArea)
+                    if cv2.contourArea(contour) > 2500:
+                        if flag == 0:
+                            computer_input = (randint(1, 5))
+                            flag = 1
+                        x, y, w1, h1 = cv2.boundingRect(contour)
+                        newImage = thresh[y:y + h1, x:x + w1]
+                        newImage = cv2.resize(newImage, (50, 50))
+                        pred_probab, user_input = keras_predict(model, newImage)
+                        print(user_input, pred_probab)
+                        img = overlay(img, emojis[user_input], 370, 50, 90, 90)
+                        img = overlay(img, emojis[computer_input], 530, 50, 90, 90)
+
+                        # result = calcResult(pred_class, cpu)
+                        RPS_draw, RPS_winner = RPS(user_input, computer_input)
+
+                elif len(contours) == 0:
+                    flag = 0
+                x, y, w, h = 300, 50, 350, 350
+                cv2.putText(img, 'USER', (380, 40),
+                            cv2.FONT_HERSHEY_COMPLEX, 0.7, (0, 0, 255), 2)
+                cv2.putText(img, 'CPU', (550, 40),
+                            cv2.FONT_HERSHEY_COMPLEX, 0.7, (0, 0, 255), 2)
+                cv2.putText(img, 'Result : ', (420, 170),
+                            cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
+                if RPS_winner == 'user':
+                    cv2.putText(img, 'USER', (530, 170),
+                                cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
+                elif RPS_winner == 'cpu':
+                    cv2.putText(img, 'CPU', (530, 170),
+                                cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
+                elif RPS_winner == 'draw':
+                    cv2.putText(img, 'DRAW', (530, 170),
+                                cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 0, 0), 2)
+                else:
+                    pass
+                cv2.imshow("Frame", img)
+                cv2.imshow("Contours", thresh)
+                k = cv2.waitKey(10)
+                if k == 27:
+                    break
+
+                direction_winner_found = direction(RPS_winner)
 
 
 def keras_predict(model, image):
