@@ -10,7 +10,7 @@ import pandas as pd
 
 
 def keras_model(image_x, image_y):
-    num_of_classes = 6
+    num_of_classes = 7
     model = Sequential()
     model.add(Conv2D(32, (5, 5), input_shape=(image_x, image_y, 1), activation='relu'))
     model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2), padding='same'))
@@ -22,21 +22,22 @@ def keras_model(image_x, image_y):
     model.add(Dense(num_of_classes, activation='softmax'))
 
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
-    filepath = "RPS.h5"
+    filepath = "RPS_direction.h5"
     checkpoint = ModelCheckpoint(filepath, monitor='val_acc', verbose=1, save_best_only=True, mode='max')
     callbacks_list = [checkpoint]
-    callbacks_list.append(TensorBoard(log_dir='RPS_logs'))
+    callbacks_list.append(TensorBoard(log_dir='RPS_dir_logs'))
 
     return model, callbacks_list
 
 
 def loadData():
-    data = pd.read_csv("train_foo.csv")
+    data = pd.read_csv("train_RPS_directions.csv")
     dataset = np.array(data)
     np.random.shuffle(dataset)
     features = dataset[:, 1:2501]
     features = features / 255.
     labels = dataset[:, 0]
+    #label_to_num_dict = {'up': 1, 'down': 2, 'left': 3, 'right': 4, 'rock': 5, 'paper': 6, 'scissors': 7}
     labels = labels.reshape(labels.shape[0], 1)
     train_x, test_x, train_y, test_y = train_test_split(features, labels, random_state=0,
                                                         test_size=0.2)
@@ -44,8 +45,8 @@ def loadData():
 
 
 def reshapeData(train_x, test_x, train_y, test_y):
-    train_y = np_utils.to_categorical(train_y)
-    test_y = np_utils.to_categorical(test_y)
+    #train_y = np_utils.to_categorical(train_y)
+    #test_y = np_utils.to_categorical(test_y)
     train_x = train_x.reshape(train_x.shape[0], 50, 50, 1)
     test_x = test_x.reshape(test_x.shape[0], 50, 50, 1)
     return train_x, test_x, train_y, test_y
@@ -71,7 +72,7 @@ def main():
     print("CNN Error: %.2f%%" % (100 - scores[1] * 100))
     print_summary(model)
 
-    model.save('RPS.h5')
+    model.save('RPS_direction.h5')
 
 
 if __name__ == '__main__':
