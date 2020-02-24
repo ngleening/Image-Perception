@@ -2,7 +2,7 @@ from scipy.misc import imread
 import numpy as np
 import pandas as pd
 import os
-root = './RPS_data' # or ‘./test’ depending on for which the CSV is being created
+root = './gestures' # or ‘./test’ depending on for which the CSV is being created
 
 # go through each directory in the root folder given above
 for directory, subdirectories, files in os.walk(root):
@@ -17,5 +17,5 @@ for directory, subdirectories, files in os.walk(root):
         value = np.hstack((directory[8:],value))
         df = pd.DataFrame(value).T
         df = df.sample(frac=1) # shuffle the dataset
-        with open('train_foo_RPS.csv', 'a') as dataset:
+        with open('train_RPS_directions.csv', 'a') as dataset:
             df.to_csv(dataset, header=False, index=False)
