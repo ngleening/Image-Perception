@@ -5,7 +5,7 @@ import os
 from random import randint
 import time
 
-model = load_model('RPS_direction.h5')
+model = load_model('RPS_Model2.h5')
 
 
 # 1 Rock
@@ -34,7 +34,7 @@ def main():
     cap = cv2.VideoCapture(0)
     x, y, w, h = 300, 50, 350, 350
 
-    while (cap.isOpened()):
+    while cap.isOpened():
         RPS_draw = False
         RPS_winner = None
         direction_winner_found = False
