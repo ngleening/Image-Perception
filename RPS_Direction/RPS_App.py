@@ -5,12 +5,12 @@ import os
 from random import randint
 import time
 
-model = load_model('RPS_Model2.h5')
-
+model = load_model('RPS_direction_Model2.h5')
 
 # 1 Rock
 # 2 Paper
 # 3 Scissors
+
 
 def rps(user_input, computer_input):
     if user_input == computer_input:
@@ -119,9 +119,9 @@ def keras_process_image(img):
 
 
 def get_emojis():
-    emojis_folder = 'RPS_emo/'
+    emojis_folder = 'RPS_emo/direction/'
     emojis = []
-    for emoji in range(len(os.listdir(emojis_folder))):
+    for emoji in range(4, len(os.listdir(emojis_folder)) + 4):
         print(emoji)
         emojis.append(cv2.imread(emojis_folder + str(emoji) + '.png', -1))
     return emojis
