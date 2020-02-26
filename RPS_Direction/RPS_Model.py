@@ -10,7 +10,7 @@ import pandas as pd
 
 
 def keras_model(image_x, image_y):
-    num_of_classes = 8
+    num_of_classes = 3
     model = Sequential()
     model.add(Conv2D(32, (5, 5), input_shape=(image_x, image_y, 1), activation='relu'))
     model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2), padding='same'))
@@ -22,7 +22,7 @@ def keras_model(image_x, image_y):
     model.add(Dense(num_of_classes, activation='softmax'))
 
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
-    filepath = "RPS_direction.h5"
+    filepath = "RPS_model.h5"
     checkpoint = ModelCheckpoint(filepath, monitor='val_acc', verbose=1, save_best_only=True, mode='max')
     callbacks_list = [checkpoint]
     callbacks_list.append(TensorBoard(log_dir='RPS_dir_logs'))
@@ -31,7 +31,7 @@ def keras_model(image_x, image_y):
 
 
 def loadData():
-    data = pd.read_csv("train_RPS_directions_num.csv")
+    data = pd.read_csv("train_RPS.csv")
     dataset = np.array(data)
     np.random.shuffle(dataset)
     features = dataset[:, 1:2501]
@@ -71,7 +71,7 @@ def main():
     print("CNN Error: %.2f%%" % (100 - scores[1] * 100))
     print_summary(model)
 
-    model.save('RPS_direction.h5')
+    model.save('RPS_model.h5')
 
 
 if __name__ == '__main__':
