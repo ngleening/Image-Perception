@@ -3,7 +3,6 @@ from keras.models import load_model
 import numpy as np
 import os
 from random import randint
-import threading
 import time
 
 rps_model = load_model('RPS_model.h5')
@@ -32,15 +31,6 @@ def directions_logic(user_input, computer_input):
     if user_input == computer_input:
         return True
     return False
-
-
-# def timer():
-#     def gfg():
-#         print("GeeksforGeeks\n")
-#
-#     timer = threading.Timer(2.0, gfg)
-#     timer.start()
-#     print("Exit\n")
 
 
 def main():
@@ -126,6 +116,11 @@ def main():
                     if k == 27:
                         break
 
+                # k = cv2.waitKey(3000)
+                # if k == 27:
+                #     break
+                time.sleep(3)
+
             # direction_winner_found = True
             ####################################### DIRECTIONS ###############################################
 
@@ -182,9 +177,10 @@ def main():
 
                 cv2.imshow("Frame", img)
                 cv2.imshow("Contours", thresh)
-                k = cv2.waitKey(10)
-                if k == 27:
-                    break
+                # k = cv2.waitKey(3000)
+                # if k == 27:
+                #     break
+                timer()
 
 
 def keras_predict(model, image):
