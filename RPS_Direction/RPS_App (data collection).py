@@ -99,7 +99,7 @@ def keras_process_image(img):
 
 
 def get_emojis():
-    emojis_folder = 'RPS_emo/RPS/'
+    emojis_folder = 'RPS_emo/'
     emojis = []
     for emoji in range(len(os.listdir(emojis_folder))):
         print(emoji)
