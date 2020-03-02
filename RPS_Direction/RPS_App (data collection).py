@@ -11,7 +11,7 @@ model = load_model('RPS_model.h5')
 def calcResult(pred_class, cpu):
     if pred_class == cpu:
         return 'draw'
-    if (pred_class == 1 and cpu == 3) or (pred_class == 2 and cpu == 1) or (pred_class == 3 and cpu == 2):
+    if (pred_class == 0 and cpu == 2) or (pred_class == 1 and cpu == 0) or (pred_class == 2 and cpu == 1):
         return 'user'
     return 'cpu'
 
@@ -43,7 +43,7 @@ def main():
             contour = max(contours, key=cv2.contourArea)
             if cv2.contourArea(contour) > 2500:
                 if flag == 0:
-                    cpu = (randint(1, 3))
+                    cpu = (randint(0, 2))
                     flag = 1
                 x, y, w1, h1 = cv2.boundingRect(contour)
                 newImage = thresh[y:y + h1, x:x + w1]
