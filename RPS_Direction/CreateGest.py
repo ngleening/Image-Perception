@@ -16,7 +16,7 @@ def main(g_id):
     cap = cv2.VideoCapture(0)
     x, y, w, h = 300, 50, 350, 350
 
-    create_folder("./gestures/" + str(g_id))
+    create_folder("./gestures/RPS" + str(g_id))
     pic_no = 0
     flag_start_capturing = False
     frames = 0
