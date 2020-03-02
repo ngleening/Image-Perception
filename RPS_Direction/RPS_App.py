@@ -3,6 +3,7 @@ from keras.models import load_model
 import numpy as np
 import os
 from random import randint
+import threading
 import time
 
 rps_model = load_model('RPS_model.h5')
@@ -33,6 +34,15 @@ def directions_logic(user_input, computer_input):
     return False
 
 
+# def timer():
+#     def gfg():
+#         print("GeeksforGeeks\n")
+#
+#     timer = threading.Timer(2.0, gfg)
+#     timer.start()
+#     print("Exit\n")
+
+
 def main():
     flag = 0
     result = ''
@@ -52,7 +62,6 @@ def main():
             while not rps_draw:
 
                 ####################################### RPS ###############################################
-
                 ret, img = cap.read()
                 img = cv2.flip(img, 1)
                 hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
@@ -117,6 +126,7 @@ def main():
                     if k == 27:
                         break
 
+            # direction_winner_found = True
             ####################################### DIRECTIONS ###############################################
 
             ret, img = cap.read()
@@ -145,8 +155,8 @@ def main():
                     newImage = cv2.resize(newImage, (50, 50))
                     pred_probab, user_input = keras_predict(directions_model, newImage)
                     print(user_input, pred_probab)
-                    img = overlay(img, rps_emojis[user_input], 370, 50, 90, 90)
-                    img = overlay(img, rps_emojis[computer_input], 530, 50, 90, 90)
+                    img = overlay(img, directions_emojis[user_input], 370, 50, 90, 90)
+                    img = overlay(img, directions_emojis[computer_input], 530, 50, 90, 90)
 
                     direction_winner_found = directions_logic(user_input, computer_input)
 
