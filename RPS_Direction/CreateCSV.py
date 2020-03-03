@@ -15,7 +15,8 @@ for directory, subdirectories, files in os.walk(root):
 # I renamed the folders containing digits to the contained digit itself. For example, digit_0 folder was renamed to 0.
 # so taking the 9th value of the folder gave the digit (i.e. "./train/8" ==> 9th value is 8), which was inserted into the first column of the dataset.
 # "./gestures/left" so take index
-        value = np.hstack((directory[11:],value))
+# "./gestures/RPS/'
+        value = np.hstack((directory[15:],value))
         df = pd.DataFrame(value).T
         df = df.sample(frac=1) # shuffle the dataset
         with open('train_RPS.csv', 'a', newline='') as dataset:
