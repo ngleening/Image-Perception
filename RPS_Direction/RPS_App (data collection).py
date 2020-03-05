@@ -5,7 +5,7 @@ import os
 from random import randint
 import time
 
-model = load_model('RPS_model.h5')
+model = load_model('RPS_model_050320.h5')
 
 
 def calcResult(pred_class, cpu):

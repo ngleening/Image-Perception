@@ -22,7 +22,7 @@ def keras_model(image_x, image_y):
     model.add(Dense(num_of_classes, activation='softmax'))
 
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
-    filepath = "RPS_model.h5"
+    filepath = "RPS_model_050320.h5"
     checkpoint = ModelCheckpoint(filepath, monitor='val_acc', verbose=1, save_best_only=True, mode='max')
     callbacks_list = [checkpoint]
     callbacks_list.append(TensorBoard(log_dir='RPS_dir_logs'))
@@ -31,7 +31,7 @@ def keras_model(image_x, image_y):
 
 
 def loadData():
-    data = pd.read_csv("train_RPS.csv")
+    data = pd.read_csv("train_RPS_050320.csv")
     dataset = np.array(data)
     np.random.shuffle(dataset)
     features = dataset[:, 1:2501]
@@ -71,7 +71,7 @@ def main():
     print("CNN Error: %.2f%%" % (100 - scores[1] * 100))
     print_summary(model)
 
-    model.save('RPS_model.h5')
+    model.save('RPS_model_050320.h5')
 
 
 if __name__ == '__main__':
