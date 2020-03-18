@@ -24,17 +24,15 @@ win_lose_arr = {'User': 0, 'CPU': 0, 'Draw': 0}
 
 def main():
     emojis = get_emojis()
+    time_limit = 3
+    count = 0
     cap = cv2.VideoCapture(0)
     x, y, w, h = 300, 50, 350, 350
-    count = 0
-    time_limit = 3
 
-    # while count < 30:
-    while (cap.isOpened()):
-        print(count)
+    while cap.isOpened() and count < 30:
         start = time.time()
         now = time.time()
-        while(now - start) < time_limit:
+        while (now - start) < time_limit:
             ret, img = cap.read()
             img = cv2.flip(img, 1)
             hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
@@ -57,62 +55,78 @@ def main():
                     newImage = thresh[y:y + h1, x:x + w1]
                     newImage = cv2.resize(newImage, (50, 50))
                     pred_probab, pred_class = keras_predict(model, newImage)
-                    print(pred_class, pred_probab)
-                    img = overlay(img, emojis[pred_class], 370, 50, 90, 90)
+                    img = overlay(img, emojis[pred_class], 370, 105, 90, 90)
+
+            x, y, w, h = 300, 50, 350, 350
+            cv2.putText(img, 'ROUND ' + str(count+1), (445, 50),
+                        cv2.FONT_HERSHEY_COMPLEX, 0.7, (0, 0, 255), 2)
+            cv2.putText(img, 'USER', (380, 90),
+                        cv2.FONT_HERSHEY_COMPLEX, 0.7, (0, 0, 255), 2)
+            cv2.putText(img, 'OVERALL SCORE', (408, 270),
+                        cv2.FONT_HERSHEY_COMPLEX, 0.7, (0, 0, 255), 2)
+            cv2.putText(img, 'USER : CPU', (433, 300),
+                        cv2.FONT_HERSHEY_COMPLEX, 0.7, (0, 0, 255), 2)
+            cv2.putText(img, str(win_lose_arr['User']) + ' : ' + str(win_lose_arr['CPU']), (480, 330),
+                        cv2.FONT_HERSHEY_COMPLEX, 0.7, (0, 0, 255), 2)
+            cv2.imshow("Frame", img)
+            cv2.imshow("Contours", thresh)
+            k = cv2.waitKey(10)
+            if k == 27:
+                break
             now = time.time()
 
+        cpu = strategy.play_game(human_choice_arr, computer_choice_arr)
+        computer_choice_arr.append(cpu)
+        if cpu == 'R':
+            cpu = 0
+        elif cpu == 'P':
+            cpu = 1
+        elif cpu == 'S':
+            cpu = 2
 
-        # print(pred_class, cpu)
-        #         #
-        #         # if flag == 0:
-        #         #     cpu = strategy.play_game(human_choice_arr, computer_choice_arr)
-        #         #     computer_choice_arr.append(cpu)
-        #         #     if cpu == 'R':
-        #         #         cpu = 0
-        #         #     elif cpu == 'P':
-        #         #         cpu = 1
-        #         #     elif cpu == 'S':
-        #         #         cpu = 2
-        #         #
-        #         # if pred_class == 0:
-        #         #     human_choice_arr.append('R')
-        #         # elif pred_class == 1:
-        #         #     human_choice_arr.append('P')
-        #         # elif pred_class == 2:
-        #         #     human_choice_arr.append('S')
-        #         #
-        #         # img = overlay(img, emojis[cpu], 530, 50, 90, 90)
-        #         # result = calcResult(pred_class, cpu)
-        #         #
-        #         # x, y, w, h = 300, 50, 350, 350
-        #         # cv2.putText(img, 'USER', (380, 40),
-        #         #             cv2.FONT_HERSHEY_COMPLEX, 0.7, (0, 0, 255), 2)
-        #         # cv2.putText(img, 'CPU', (550, 40),
-        #         #             cv2.FONT_HERSHEY_COMPLEX, 0.7, (0, 0, 255), 2)
-        #         # cv2.putText(img, 'Result : ', (420, 170),
-        #         #             cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
-        #         # if result == 'user':
-        #         #     cv2.putText(img, 'USER', (530, 170),
-        #         #                 cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
-        #         #     win_lose_arr['User'] += 1
-        #         # elif result=='cpu':
-        #         #     cv2.putText(img, 'CPU', (530, 170),
-        #         #                 cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
-        #         #     win_lose_arr['CPU'] += 1
-        #         # elif result=='draw':
-        #         #     cv2.putText(img, 'DRAW', (530, 170),
-        #         #                 cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 0, 0), 2)
-        #         #     win_lose_arr['Draw'] += 1
-        #         # else:
-        #         #     pass
-        #         # cv2.imshow("Frame", img)
-        #         # cv2.imshow("Contours", thresh)
-        #         # k = cv2.waitKey(300)
-        #         # if k == 27:
-        #         #     break
-        #         #
-        #         # print(win_lose_arr)
+        if pred_class == 0:
+            human_choice_arr.append('R')
+        elif pred_class == 1:
+            human_choice_arr.append('P')
+        elif pred_class == 2:
+            human_choice_arr.append('S')
+
+        img = overlay(img, emojis[cpu], 530, 105, 90, 90)
+        result = calcResult(pred_class, cpu)
+
+        cv2.putText(img, 'USER', (380, 90),
+                    cv2.FONT_HERSHEY_COMPLEX, 0.7, (0, 0, 255), 2)
+        cv2.putText(img, 'CPU', (550, 90),
+                    cv2.FONT_HERSHEY_COMPLEX, 0.7, (0, 0, 255), 2)
+        cv2.putText(img, 'Result : ', (420, 220),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
+        if result == 'user':
+            cv2.putText(img, 'USER', (530, 220),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
+            win_lose_arr['User'] += 1
+        elif result == 'cpu':
+            cv2.putText(img, 'CPU', (530, 220),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
+            win_lose_arr['CPU'] += 1
+        elif result == 'draw':
+            cv2.putText(img, 'DRAW', (530, 220),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 0, 0), 2)
+            win_lose_arr['Draw'] += 1
+        else:
+            pass
+        cv2.imshow("Frame", img)
+        cv2.imshow("Contours", thresh)
+        k = cv2.waitKey(1000)
+        if k == 27:
+            break
+
         count += 1
+
+    non_draw = win_lose_arr['User'] + win_lose_arr['CPU']
+    human_win_per = round(win_lose_arr['User']/non_draw, 2)
+    cpu_win_per = round(win_lose_arr['CPU']/non_draw, 2)
+    print('Win percentage (Human): ' + str(human_win_per) + '%')
+    print('Win percentage (CPU): ' + str(cpu_win_per) + '%')
 
 
 def keras_predict(model, image):
@@ -135,7 +149,7 @@ def get_emojis():
     emojis_folder = 'RPS_emo/'
     emojis = []
     for emoji in range(len(os.listdir(emojis_folder))):
-        print(emoji)
+        # print(emoji)
         emojis.append(cv2.imread(emojis_folder + str(emoji) + '.png', -1))
     return emojis
 

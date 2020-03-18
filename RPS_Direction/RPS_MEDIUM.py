@@ -2,6 +2,7 @@ import random
 
 computer_choice = {0: "R", 1: "P", 2: "S"}
 
+
 # Basic Play
 
 def play_basic(human_input, com_select):
@@ -43,7 +44,8 @@ def play_basic(human_input, com_select):
     fut_com_select = computer_choice[random.randint(0, 2)]
     return "D", human_input, com_select, fut_com_select
 
-def pattern_analyzer(human_choice_arr,computer_choice_arr):
+
+def pattern_analyzer(human_choice_arr, computer_choice_arr):
     """
     This function will be activated once the user plays more than 4 round of RPS. It plays
     in a probabilistic manner looking for pairs or triplets.
@@ -53,9 +55,9 @@ def pattern_analyzer(human_choice_arr,computer_choice_arr):
     move made by the computer
     """
 
-    win_moves = {"R":"P",
-                "P":"S",
-                "S":"R"}
+    win_moves = {"R": "P",
+                 "P": "S",
+                 "S": "R"}
 
     if len(human_choice_arr) > 5:
         # Analyse if human is trying to copy computer's previous move. There is a catch, human must copy
@@ -63,7 +65,7 @@ def pattern_analyzer(human_choice_arr,computer_choice_arr):
         prev_com_five_moves = computer_choice_arr[-5:]
         prev_human_four_moves = human_choice_arr[-4:]
         if prev_com_five_moves[0:3] == prev_human_four_moves[0:3]:
-            return "copycat", prev_com_five_moves[0:3]   
+            return "copycat", prev_com_five_moves[0:3]
 
     if len(human_choice_arr) > 5:
         # Analyse if human is just trying to use a move to beat the computer's previous move. This must
@@ -71,7 +73,7 @@ def pattern_analyzer(human_choice_arr,computer_choice_arr):
         prev_com_five_moves = computer_choice_arr[-5:]
         prev_com_four = prev_com_five_moves[0:4]
         prev_human_four_moves = human_choice_arr[-4:]
-        
+
         count = 0
         for i in range(len(prev_com_four)):
             pred = win_moves[prev_com_four[i]]
@@ -79,18 +81,18 @@ def pattern_analyzer(human_choice_arr,computer_choice_arr):
                 count += 1
         if count == 4:
             return "rat", "TEST"
-    
+
     # Get previous 6 moves to detect triplets
     if len(human_choice_arr) > 5:
         prev_six_moves = human_choice_arr[-6:]
-        
+
         # Analyse if there's triplets repeats, compare if first 3 are the same as the next 3
         first_triplet = prev_six_moves[0] + prev_six_moves[1] + prev_six_moves[2]
         next_triplet = prev_six_moves[3] + prev_six_moves[4] + prev_six_moves[5]
         if first_triplet == next_triplet:
-            return "triplet", first_triplet        
-    
-    # Get previous 4 moves to detect pairs
+            return "triplet", first_triplet
+
+            # Get previous 4 moves to detect pairs
     if len(human_choice_arr) > 3:
         prev_human_four_moves = human_choice_arr[-4:]
         # Analyse if there's pair repeats, compare if first 2 pairs are the same as the next 2 pairs
@@ -102,7 +104,8 @@ def pattern_analyzer(human_choice_arr,computer_choice_arr):
 
     return False
 
-def play_pattern(pattern,rnd):
+
+def play_pattern(pattern, rnd):
     """
     This function will play in the opposite way of the identified pattern.
     """
@@ -113,6 +116,7 @@ def play_pattern(pattern,rnd):
         return "S"
     elif pattern[rnd] == "S":
         return "R"
+
 
 def play_copycat(computer_choice_arr):
     """
@@ -126,6 +130,7 @@ def play_copycat(computer_choice_arr):
     elif computer_choice_arr[-1] == "R":
         return "P"
 
+
 def play_rat(computer_choice_arr):
     """
     Look at the last choice the computer made
@@ -137,8 +142,9 @@ def play_rat(computer_choice_arr):
         return "R"
     elif last_move == "S":
         return "P"
-    
-def pattern_player_outcome(human_input,com_select):
+
+
+def pattern_player_outcome(human_input, com_select):
     outcome = ()
     if human_input == "R":
         if com_select == "P":
@@ -165,13 +171,14 @@ def pattern_player_outcome(human_input,com_select):
         return outcome
     return "D", human_input, com_select
 
-def remove_cheats(human_choice_arr,num_cheats):
 
+def remove_cheats(human_choice_arr, num_cheats):
     if len(human_choice_arr) > 3:
         end = len(human_choice_arr) - num_cheats
         new_human_choice_arr = human_choice_arr[0:end]
         return new_human_choice_arr
     return human_choice_arr
+
 
 # Computer Selection
 def computer_selects(human_choice):
@@ -187,6 +194,7 @@ def computer_selects(human_choice):
     if human_choice == "S":
         return "R"
 
+
 def get_probability_table(human_choice_arr):
     """
     This function analyses the pattern of human behaviour if a human plays by instincts instead
@@ -197,22 +205,22 @@ def get_probability_table(human_choice_arr):
     """
 
     # Instantiate number of times pairs are thrown table
-    pairs_dictionary = {"R":{"R":0,"S":0,"P":0},
-                        "S":{"R":0,"S":0,"P":0},
-                        "P":{"R":0,"S":0,"P":0}}
+    pairs_dictionary = {"R": {"R": 0, "S": 0, "P": 0},
+                        "S": {"R": 0, "S": 0, "P": 0},
+                        "P": {"R": 0, "S": 0, "P": 0}}
 
     # Create probability table
-    probability_dictionary = {"R":{"R":0,"S":0,"P":0},
-                                "S":{"R":0,"S":0,"P":0},
-                                "P":{"R":0,"S":0,"P":0}}
+    probability_dictionary = {"R": {"R": 0, "S": 0, "P": 0},
+                              "S": {"R": 0, "S": 0, "P": 0},
+                              "P": {"R": 0, "S": 0, "P": 0}}
 
     # Get probability of pairs occuring together
     if len(human_choice_arr) >= 10:
-        for i in range(len(human_choice_arr)-1):
+        for i in range(len(human_choice_arr) - 1):
             # 1st key - human's prev choice
             sub_dictionary = pairs_dictionary[human_choice_arr[i]]
             # 2nd key - human's curr choice
-            sub_dictionary[human_choice_arr[i+1]] += 1
+            sub_dictionary[human_choice_arr[i + 1]] += 1
 
         # Update probaility table
         for a_key in probability_dictionary:
@@ -226,28 +234,28 @@ def get_probability_table(human_choice_arr):
         return probability_dictionary
     return ""
 
-def get_probability(human_choice_arr,computer_choice_arr):
 
+def get_probability(human_choice_arr, computer_choice_arr):
     """
     This function gets the probability of what the human played vs what the computer played.
     It returns a probability table of what human and computer played.
     """
 
     # Declare table showing number of times com, human played
-    played_times_dictionary = {"R":{"R":0,"S":0,"P":0},
-                                "S":{"R":0,"S":0,"P":0},
-                                "P":{"R":0,"S":0,"P":0}}
+    played_times_dictionary = {"R": {"R": 0, "S": 0, "P": 0},
+                               "S": {"R": 0, "S": 0, "P": 0},
+                               "P": {"R": 0, "S": 0, "P": 0}}
 
-    probability_dictionary = {"R":{"R":0,"S":0,"P":0},
-                                "S":{"R":0,"S":0,"P":0},
-                                "P":{"R":0,"S":0,"P":0}}
+    probability_dictionary = {"R": {"R": 0, "S": 0, "P": 0},
+                              "S": {"R": 0, "S": 0, "P": 0},
+                              "P": {"R": 0, "S": 0, "P": 0}}
 
     # Update number table
     if len(human_choice_arr) >= 10:
         for i in range(len(human_choice_arr)):
             human_choice = human_choice_arr[i]
             com_choice = computer_choice_arr[i]
-            
+
             played_times_dictionary[com_choice][human_choice] += 1
 
         for a_key in played_times_dictionary:
@@ -259,18 +267,17 @@ def get_probability(human_choice_arr,computer_choice_arr):
     return ""
 
 
-def get_rewards_table(human_choice_arr,computer_choice_arr):
-
+def get_rewards_table(human_choice_arr, computer_choice_arr):
     # Declare rewards table rule
-    rule = {"R":{"R":0.5,"P":-1,"S":1.5},
-            "S":{"R":-1,"P":1.5,"S":0.5},
-            "P":{"R":1.5,"P":0.5,"S":-1}}
+    rule = {"R": {"R": 0.5, "P": -1, "S": 1.5},
+            "S": {"R": -1, "P": 1.5, "S": 0.5},
+            "P": {"R": 1.5, "P": 0.5, "S": -1}}
 
     # Create rewarded table 
-    rewards_table = {"R":{"R":0,"S":0,"P":0},
-                     "S":{"R":0,"S":0,"P":0},
-                     "P":{"R":0,"S":0,"P":0}}
-    
+    rewards_table = {"R": {"R": 0, "S": 0, "P": 0},
+                     "S": {"R": 0, "S": 0, "P": 0},
+                     "P": {"R": 0, "S": 0, "P": 0}}
+
     for i in range(len(human_choice_arr)):
         human_choice = human_choice_arr[i]
         com_choice = computer_choice_arr[i]
@@ -280,16 +287,16 @@ def get_rewards_table(human_choice_arr,computer_choice_arr):
 
     return rewards_table
 
-def get_prob_rewards_table(rewards_table,probability_dictionary):
 
+def get_prob_rewards_table(rewards_table, probability_dictionary):
     """
     This function returns the probability-rewards table
     """
 
     # Declare prob_rewards table
-    prob_rewards_table = {"R":{"R":0,"S":0,"P":0},
-                            "S":{"R":0,"S":0,"P":0},
-                            "P":{"R":0,"S":0,"P":0}}
+    prob_rewards_table = {"R": {"R": 0, "S": 0, "P": 0},
+                          "S": {"R": 0, "S": 0, "P": 0},
+                          "P": {"R": 0, "S": 0, "P": 0}}
 
     for a_key in prob_rewards_table:
         sub_dictionary = prob_rewards_table[a_key]
@@ -300,11 +307,11 @@ def get_prob_rewards_table(rewards_table,probability_dictionary):
             p = probability_dictionary[a_key][a_sub_key]
             # Update
             sub_dictionary[a_sub_key] = r * p
-    
+
     return prob_rewards_table
 
-def play_by_probability(human_choice_arr,prob_rewards_table):
 
+def play_by_probability(human_choice_arr, prob_rewards_table):
     """
     This function tries to use a move that should give the highest possible reward
     """
@@ -356,6 +363,7 @@ def get_prob(human_choice_arr):
 
     return {"R": prob_R, "S": prob_S, "P": prob_P}
 
+
 def get_com_prob(computer_choice_arr):
     """
     Finds the probability of the computer playing the gestures. Returned in dictionary format.
@@ -376,22 +384,21 @@ def get_com_prob(computer_choice_arr):
 ## Play the game
 
 def play_game(human_choice_arr, computer_choice_arr):
-
     if len(human_choice_arr) == 0:
-        com_select = computer_choice[random.randint(0,1)]
+        com_select = computer_choice[random.randint(0, 1)]
         return com_select
 
     # Check for pattern
-    if len(human_choice_arr) >= 4 and pattern_analyzer(human_choice_arr,computer_choice_arr) != False:
-        
+    if len(human_choice_arr) >= 4 and pattern_analyzer(human_choice_arr, computer_choice_arr) != False:
+
         # Retrieve pattern
-        predicted_pattern = pattern_analyzer(human_choice_arr,computer_choice_arr)[0]
+        predicted_pattern = pattern_analyzer(human_choice_arr, computer_choice_arr)[0]
 
         if predicted_pattern == "triplet":
-            com_select = play_pattern(pattern_analyzer(human_choice_arr,computer_choice_arr)[1],0)
-        
+            com_select = play_pattern(pattern_analyzer(human_choice_arr, computer_choice_arr)[1], 0)
+
         elif predicted_pattern == "pairs":
-            com_select = play_pattern(pattern_analyzer(human_choice_arr,computer_choice_arr)[1],0)
+            com_select = play_pattern(pattern_analyzer(human_choice_arr, computer_choice_arr)[1], 0)
 
         elif predicted_pattern == "copycat":
             com_select = play_copycat(computer_choice_arr)
@@ -402,11 +409,10 @@ def play_game(human_choice_arr, computer_choice_arr):
         return com_select
 
     # If no pattern detected, and less than 10 rounds of play, play a basic manner
-    elif len(human_choice_arr) < 9 and pattern_analyzer(human_choice_arr,computer_choice_arr) == False:
+    elif len(human_choice_arr) < 9 and pattern_analyzer(human_choice_arr, computer_choice_arr) == False:
         # Basic game play will be chosen ==> E.g: "D", human_input, com_select, fut_com_select
-
         game_outcome_basic = play_basic(human_choice_arr[-1], computer_choice_arr[-1])
-        com_select = game_outcome_basic[3]              # Computer makes a future selection
+        com_select = game_outcome_basic[3]  # Computer makes a future selection
         return com_select
 
     # If number of rounds played >= 10
@@ -414,14 +420,14 @@ def play_game(human_choice_arr, computer_choice_arr):
 
         # Play by probability distribution
         com_prob_select = ""
-        if get_probability(human_choice_arr,computer_choice_arr) != "":
-            
-            probability_dictionary = get_probability(human_choice_arr,computer_choice_arr)
-            rewards_table = get_rewards_table(human_choice_arr,computer_choice_arr)
-            prob_rewards_table = get_prob_rewards_table(rewards_table,probability_dictionary)
+        if get_probability(human_choice_arr, computer_choice_arr) != "":
+
+            probability_dictionary = get_probability(human_choice_arr, computer_choice_arr)
+            rewards_table = get_rewards_table(human_choice_arr, computer_choice_arr)
+            prob_rewards_table = get_prob_rewards_table(rewards_table, probability_dictionary)
 
             if play_by_probability(human_choice_arr, prob_rewards_table) != "Cannot Retrieve Probability":
-                com_prob_select = play_by_probability(human_choice_arr,prob_rewards_table)
+                com_prob_select = play_by_probability(human_choice_arr, prob_rewards_table)
             else:
                 com_prob_select == ""
 
@@ -433,7 +439,7 @@ def play_game(human_choice_arr, computer_choice_arr):
             highest_val = 0
 
             for key in prob_dictionary:
-                if prob_dictionary[key]> highest_val:
+                if prob_dictionary[key] > highest_val:
                     highest_val = prob_dictionary[key]
                     human_choice = key
             com_select = computer_selects(human_choice)
