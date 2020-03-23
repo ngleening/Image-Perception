@@ -24,7 +24,7 @@ win_lose_arr = {'User': 0, 'CPU': 0, 'Draw': 0}
 
 def main():
     emojis = get_emojis()
-    time_limit = 5
+    time_limit = 3
     count = 0
     cap = cv2.VideoCapture(0)
     x, y, w, h = 300, 50, 350, 350
