@@ -2,7 +2,7 @@ from scipy.misc import imread
 import numpy as np
 import pandas as pd
 import os
-root = './gestures/RPS' # or ‘./test’ depending on for which the CSV is being created
+root = '../gestures/RPS' # or ‘./test’ depending on for which the CSV is being created
 
 # go through each directory in the root folder given above
 for directory, subdirectories, files in os.walk(root):
@@ -16,8 +16,8 @@ for directory, subdirectories, files in os.walk(root):
 # so taking the 9th value of the folder gave the digit (i.e. "./train/8" ==> 9th value is 8), which was inserted into the first column of the dataset.
 # "./gestures/left" so take index
 # "./gestures/RPS/'
-        value = np.hstack((directory[15:],value))
+        value = np.hstack((directory[16:],value))
         df = pd.DataFrame(value).T
         df = df.sample(frac=1) # shuffle the dataset
-        with open('train_RPS_050320.csv', 'a', newline='') as dataset:
+        with open('train_RPS_250320.csv', 'a', newline='') as dataset:
             df.to_csv(dataset, header=False, index=False)
