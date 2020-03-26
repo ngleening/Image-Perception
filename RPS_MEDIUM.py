@@ -384,6 +384,8 @@ def get_com_prob(computer_choice_arr):
 ## Play the game
 
 def play_game(human_choice_arr, computer_choice_arr):
+    human_choice_arr = human_choice_arr[:-1]
+
     if len(human_choice_arr) == 0:
         com_select = computer_choice[random.randint(0, 1)]
         return com_select
