@@ -31,12 +31,7 @@ Rules before playing:
 2. If the screen does not detect your chosen hand gesture, move your hand slightly until it detects the correct one.
 
 
-### Functionalities
-1) Filters to detect hand.
-2) CNN for training the model.
-
-
-### Python  Implementation - Hand detection
+### Implementation - Hand detection
 1) Network Used - Convolutional Neural Network
 
 
