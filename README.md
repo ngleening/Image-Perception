@@ -35,25 +35,27 @@ Rules before playing:
 Network Used: Convolutional Neural Network<br/>
 Layers:
 
-1. ---Conv2D-32---
+Basic CNN:
+	1. ---Conv2D-32---
 
-2. ---MaxPool2D---
+	2. ---MaxPool2D---
 
-3. ---Conv2D-64---
+	3. ---Conv2D-64---
 
-4. ---MaxPool2D---
+	4. ---MaxPool2D---
+Classification Layer:
 
-5. ---Flatten---
+	5. ---Flatten---
 
-6. ---FC-1024---
+	6. ---FC-1024---
 
-7. ---Dropout---
+	7. ---Dropout---
 
-8. ---Softmax---
+	8. ---Softmax---
 
 
 ### Implementation - For CPU to defeat User
-A common idea of RPS is that it is a game of chances, a game of randomness but we seek to differ from this opinion.
+The common idea of RPS is that it is a game of chances, a game of randomness but we seek to differ from this opinion.
 
 A group of researchers from Chinese universities have written a paper about the role of psychology in winning (or losing) at rock-paper-scissors. After studying how players change or keep their strategies during multiple-round sessions, they figured out a basic rule that people tend to play by that could potentially be exploited.
 
