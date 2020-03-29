@@ -32,23 +32,25 @@ Rules before playing:
 
 
 ### Implementation - Hand detection
-1) Network Used - Convolutional Neural Network
+Network Used: Convolutional Neural Network
+Layers:
 
----Conv2D-32---
+1. ---Conv2D-32---
 
----MaxPool2D---
+2. ---MaxPool2D---
 
----Conv2D-64---
+3. ---Conv2D-64---
 
----MaxPool2D---
+4. ---MaxPool2D---
 
----Flatten---
+5. ---Flatten---
 
----FC-1024---
+6. ---FC-1024---
 
----Dropout---
+7. ---Dropout---
 
----Softmax---
+8. ---Softmax---
+
 
 ### Implementation - For CPU to defeat User
 A common idea of RPS is that it is a game of chances, a game of randomness but we seek to differ from this opinion.
