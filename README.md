@@ -61,5 +61,12 @@ Go through the presentation slide 'RPS_Presentation.pptx'.
 Afterwards, just run 'RPS_App.py' for playing Rock-Paper-Scissors via webcam. Have fun!
 
 
+### Directories
+1. RPS_emo - This folder contains the emojis used to depict the user or CPU's actions.
+2. RPS_generatedata - This folder contains <b>CreateGest.py</b> which helps to create our training images and <b>CreateCSV.py</b> which is used to tranform it into a CSV file.
+3. RPS_logs - 
+4. RPS_training -
+5. RPS_
+
 
 
