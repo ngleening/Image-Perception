@@ -35,24 +35,30 @@ Rules before playing:
 Network Used: Convolutional Neural Network<br/>
 Layers:
 
-Basic CNN:
+**Basic CNN:**
 	
-	1. ---Conv2D-32---
+	1. Conv2D-32
 
-	2. ---MaxPool2D---
+	2. MaxPool2D
 
-	3. ---Conv2D-64---
+	3.Conv2D-64
 
-	4. ---MaxPool2D---
-Classification Layer:
+	4. MaxPool2D
+**Classification Layer:**
 
-	1. ---Flatten---
+	1. Flatten
 
-	2. ---FC-1024---
+	2. FC-1024 
+		- A Dense layer with 1024 nodes and ReLu activation
 	
-	3. ---Dropout---
+	3. Dropout
+		- It is likely that we have overfitted the model hence, we chose a higher dropout ratio of 0.6. This helps to thin the network during training.
 
-	4. ---Softmax---
+	4. Softmax
+
+**Compile Model:**
+	
+	1. Adam Optimizer (learning rate was auto-tuned)
 
 
 ### Implementation - For CPU to defeat User
