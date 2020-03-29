@@ -36,6 +36,7 @@ Network Used: Convolutional Neural Network<br/>
 Layers:
 
 Basic CNN:
+	
 	1. ---Conv2D-32---
 
 	2. ---MaxPool2D---
@@ -45,11 +46,11 @@ Basic CNN:
 	4. ---MaxPool2D---
 Classification Layer:
 
-	5. ---Flatten---
+	1. ---Flatten---
 
-	6. ---FC-1024---
-
-	7. ---Dropout---
+	2. ---FC-1024---
+	
+	3. ---Dropout---
 
 	8. ---Softmax---
 
