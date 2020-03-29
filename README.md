@@ -52,7 +52,7 @@ Classification Layer:
 	
 	3. ---Dropout---
 
-	8. ---Softmax---
+	4. ---Softmax---
 
 
 ### Implementation - For CPU to defeat User
