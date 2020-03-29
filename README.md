@@ -36,12 +36,13 @@ Network Used: Convolutional Neural Network<br/>
 Layers:
 
 **Basic CNN:**
+As there is no need for a complex neural network model for training of these 3 images, we adapted a small part of VGG16's model out to create a basic CNN model. Using a complex model may result in expensive computational power to be required and high cost in time and it may even yield the same result as the basic CNN model shown here.
 	
 	1. Conv2D-32
 
 	2. MaxPool2D
 
-	3.Conv2D-64
+	3. Conv2D-64
 
 	4. MaxPool2D
 **Classification Layer:**
