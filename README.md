@@ -62,11 +62,14 @@ Afterwards, just run 'RPS_App.py' for playing Rock-Paper-Scissors via webcam. Ha
 
 
 ### Directories
-1. RPS_emo - This folder contains the emojis used to depict the user or CPU's actions.
-2. RPS_generatedata - This folder contains <b>CreateGest.py</b> which helps to create our training images and <b>CreateCSV.py</b> which is used to tranform it into a CSV file.
-3. RPS_logs - 
-4. RPS_training -
-5. RPS_
+1. RPS_generatedata - This folder contains <b>CreateGest.py</b> which helps to create our training images and <b>CreateCSV.py</b> which is used to tranform it into a CSV file.
+2. RPS_gestures - This folder contains our training images.
+3. RPS_training - This folder contains <b>RPS_Model.py</b> which we used to form the architecture for our hand detection model.
+4. RPS_emo - This folder contains the emojis used to depict the user or CPU's actions.
+5. RPS_MEDIUM.py - This file is our algorithm for the CPU to beat user.
+6. RPS_App.py - This file is our game stimulation python file.
+7. RPS_logs & RPS_dir_logs - This two folders contains our log files.
+8. RPS_Presentation.pptx - This file contains our final presentation slides.
 
 
 
