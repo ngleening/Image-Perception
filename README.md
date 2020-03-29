@@ -32,7 +32,7 @@ Rules before playing:
 
 
 ### Implementation - Hand detection
-Network Used: Convolutional Neural Network
+Network Used: Convolutional Neural Network<br/>
 Layers:
 
 1. ---Conv2D-32---
