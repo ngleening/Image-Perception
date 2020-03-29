@@ -33,13 +33,21 @@ Rules before playing:
 
 ### Implementation - Hand detection
 1) Network Used - Convolutional Neural Network
+
 ---Conv2D-32---
+
 ---MaxPool2D---
+
 ---Conv2D-64---
+
 ---MaxPool2D---
+
 ---Flatten---
+
 ---FC-1024---
+
 ---Dropout---
+
 ---Softmax---
 
 ### Implementation - For CPU to defeat User
