@@ -1,6 +1,6 @@
 # Try to beat this sophisticated approach which analyzes your Rock-Paper-Scissors patterns!
 
-# A project by Lee Ning, Grace, Osbert & Qian Yu
+#### A project by Lee Ning, Grace, Osbert & Qian Yu
 
 ## Team Quote: "When you think you're playing randomly, you're actually not"
 This code helps you to play the classic game of Rock-Paper-Scissors, with a twist.
